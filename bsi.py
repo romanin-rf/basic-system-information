@@ -87,7 +87,7 @@ class function_operation:
 	UpdateAverageLoadIndicator = True
 
 class proginfo:
-	version = "0.1-beta"
+	version = "0.1.1-beta"
 
 # Создаём окно
 root = tk.Tk()
@@ -284,13 +284,13 @@ def AverageLoadIndicator():
 				wag += 1
 			ColorAverageLoadIndicator = ""
 			TextAverageLoadIndicator = ""
-			if AverageLoadPoints < 4:
+			if AverageLoadPoints <= 3:
 				ColorAverageLoadIndicator = "green"
 				TextAverageLoadIndicator = "Очень низкая"
-			elif AverageLoadPoints < 8:
+			elif AverageLoadPoints <= 6:
 				ColorAverageLoadIndicator = "#c9cc02"
 				TextAverageLoadIndicator = "Низкая"
-			elif AverageLoadPoints < 12:
+			elif AverageLoadPoints <= 9:
 				ColorAverageLoadIndicator = "orange"
 				TextAverageLoadIndicator = "Средняя"
 			else:
