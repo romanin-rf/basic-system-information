@@ -86,9 +86,12 @@ class function_operation:
 	UpdateSWAP = True
 	UpdateAverageLoadIndicator = True
 
+class proginfo:
+	version = "0.1-beta"
+
 # Создаём окно
 root = tk.Tk()
-root.title("Базовая Системная Информация (БСИ)")
+root.title("БСИ v" + str(proginfo.version))
 if "-dev" in sys.argv:
 	root.geometry("400x210")
 else:
