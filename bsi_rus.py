@@ -292,7 +292,7 @@ def AverageLoadIndicator():
 			TextAverageLoadIndicator = ""
 			if AverageLoadPoints <= 3:
 				ColorAverageLoadIndicator = "green"
-				TextAverageLoadIndicator = "Очень низкая"
+				TextAverageLoadIndicator = "Оч. низкая"
 			elif AverageLoadPoints <= 6:
 				ColorAverageLoadIndicator = "#c9cc02"
 				TextAverageLoadIndicator = "Низкая"
