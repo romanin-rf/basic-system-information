@@ -84,8 +84,8 @@ class function_operation:
 	UpdateAverageLoadIndicator = True
 
 class proginfo:
-	name = "БСИ (РУС) "
-	version = "0.1.3-beta"
+	name = "БСИ (РУС)"
+	version = "0.1.3f-beta"
 
 # Создаём окно
 root = tk.Tk()
