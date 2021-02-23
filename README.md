@@ -1,4 +1,4 @@
-# Что такое BasicSystemInformation?
+# Что такое Basic System Information?
 ## Описание
 Это простая программа которая показывает нагрузку на `CPU`, `RAM` и `SWAP (Файл Подкачки)`.
 ## Автор
