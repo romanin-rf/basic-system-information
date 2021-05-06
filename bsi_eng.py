@@ -9,10 +9,7 @@ import time
 import sys
 import os
 
-if "config.json" in os.listdir():
-	with open("config.json") as config_data_file:
-		cfgd = json.load(config_data_file)
-else:
+class std:
 	cfgd = 	{
 				"timeouts":	{
 								"update-time":			0.5,
@@ -23,10 +20,15 @@ else:
 							},
 				"root":		{
 								"attributes":			False
-				}
+							}
 			}
+
+if "config.json" in os.listdir():
+	with open("config.json") as config_data_file:
+		cfgd = json.load(config_data_file)
+else:
 	with open("config.json", "w") as config_data_file:
-		json.dump(cfgd, config_data_file)
+		json.dump(std.cfgd, config_data_file)
 
 class timeouts:
 	try:
@@ -36,45 +38,21 @@ class timeouts:
 		UpdateSWAP = cfgd["timeouts"]["update-swap"]
 		UpdateAverageLoad = cfgd["timeouts"]["update-average-load"]
 	except:
-		cfgd = 	{
-					"timeouts":	{
-									"update-time":			0.5,
-									"update-cpu-load":		0.5,
-									"update-ram":			0.5,
-									"update-swap":			0.5,
-									"update-average-load":	0.5
-								},
-					"root":		{
-									"attributes":			False
-								}
-				}
-		UpdateTime = cfgd["timeouts"]["update-time"]
-		UpdateCPULoad = cfgd["timeouts"]["update-cpu-load"]
-		UpdateRAM = cfgd["timeouts"]["update-ram"]
-		UpdateSWAP = cfgd["timeouts"]["update-swap"]
-		UpdateAverageLoad = cfgd["timeouts"]["update-average-load"]
+		UpdateTime = std.cfgd["timeouts"]["update-time"]
+		UpdateCPULoad = std.cfgd["timeouts"]["update-cpu-load"]
+		UpdateRAM = std.cfgd["timeouts"]["update-ram"]
+		UpdateSWAP = std.cfgd["timeouts"]["update-swap"]
+		UpdateAverageLoad = std.cfgd["timeouts"]["update-average-load"]
 		with open("config.json", "w") as config_data_file:
-			json.dump(cfgd, config_data_file)
+			json.dump(std.cfgd, config_data_file)
 
 class root_operation:
 	try:
 		attributes = cfgd["root"]["attributes"]
 	except:
-		cfgd = 	{
-					"timeouts":	{
-									"update-time":			0.5,
-									"update-cpu-load":		0.5,
-									"update-ram":			0.5,
-									"update-swap":			0.5,
-									"update-average-load":	0.5
-								},
-					"root":		{
-									"attributes":			False
-								}
-				}
-		attributes = cfgd["root"]["attributes"]
+		attributes = std.cfgd["root"]["attributes"]
 		with open("config.json", "w") as config_data_file:
-			json.dump(cfgd, config_data_file)
+			json.dump(std.cfgd, config_data_file)
 
 class function_operation:
 	UpdateTime = True
@@ -85,7 +63,7 @@ class function_operation:
 
 class proginfo:
 	name = "BSI (ENG)"
-	version = "0.1.3f-beta"
+	version = "0.1.4-beta"
 
 # Создаём окно
 root = tk.Tk()
