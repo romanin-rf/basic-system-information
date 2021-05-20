@@ -9,8 +9,10 @@ import time
 import sys
 import os
 
-class std:
-	cfgd = 	{
+# Настройки
+class settings:
+	class std:
+		cfgd = 	{
 				"timeouts":	{
 								"update-time":			0.5,
 								"update-cpu-load":		0.5,
@@ -21,14 +23,24 @@ class std:
 				"root":		{
 								"attributes":			False
 							}
-			}
+		}
+	ConfigFileName = "config.json"
 
-if "config.json" in os.listdir():
-	with open("config.json") as config_data_file:
+# Создание функций для debag
+class logger:
+	def pr(text: str, option = "-dev"):
+		if option in sys.argv:
+			print(text)
+
+# Загрузка конфигураций
+if settings.ConfigFileName in os.listdir():
+	with open(settings.ConfigFileName) as config_data_file:
 		cfgd = json.load(config_data_file)
+	logger.pr(f"Configuration loaded from '{settings.ConfigFileName}'")
 else:
-	with open("config.json", "w") as config_data_file:
-		json.dump(std.cfgd, config_data_file)
+	with open(settings.ConfigFileName, "w") as config_data_file:
+		json.dump(settings.settings.std.cfgd, config_data_file)
+	logger.pr(f"File configuration is created")
 
 class timeouts:
 	try:
@@ -38,13 +50,13 @@ class timeouts:
 		UpdateSWAP = cfgd["timeouts"]["update-swap"]
 		UpdateAverageLoad = cfgd["timeouts"]["update-average-load"]
 	except:
-		UpdateTime = std.cfgd["timeouts"]["update-time"]
-		UpdateCPULoad = std.cfgd["timeouts"]["update-cpu-load"]
-		UpdateRAM = std.cfgd["timeouts"]["update-ram"]
-		UpdateSWAP = std.cfgd["timeouts"]["update-swap"]
-		UpdateAverageLoad = std.cfgd["timeouts"]["update-average-load"]
+		UpdateTime = settings.std.cfgd["timeouts"]["update-time"]
+		UpdateCPULoad = settings.std.cfgd["timeouts"]["update-cpu-load"]
+		UpdateRAM = settings.std.cfgd["timeouts"]["update-ram"]
+		UpdateSWAP = settings.std.cfgd["timeouts"]["update-swap"]
+		UpdateAverageLoad = settings.std.cfgd["timeouts"]["update-average-load"]
 		with open("config.json", "w") as config_data_file:
-			json.dump(std.cfgd, config_data_file)
+			json.dump(settings.std.cfgd, config_data_file)
 
 class root_operation:
 	try:
@@ -63,15 +75,13 @@ class function_operation:
 
 class proginfo:
 	name = "BSI (ENG)"
-	version = "0.1.4-beta"
+	version = "0.1.5-beta"
+	versionint = 0.15
 
 # Создаём окно
 root = tk.Tk()
-root.title(str(proginfo.name) + " v" + str(proginfo.version))
-if "-dev" in sys.argv:
-	root.geometry("450x210")
-else:
-	root.geometry("450x105")
+root.title(f"{proginfo.name} v{proginfo.version} ({proginfo.versionint})")
+root.geometry("450x105")
 if "icon.ico" in os.listdir():
 	root.iconbitmap('icon.ico')
 else:
@@ -292,12 +302,25 @@ ButtonSwitchingOptionsAttributes.bind('<Button-1>', SwitchingOptionsAttributes)
 
 # Запуск в фоне
 Thread(target = UpdateTimeLabel, args = (), daemon = True).start()
+logger.pr(f"Function the UpdateTimeLabel is started")
+
 Thread(target = UpdateCPULoadLabel, args = (), daemon = True).start()
+logger.pr(f"Function the UpdateCPULoadLabel is started")
+
 Thread(target = UpdateRAMLoadLabel, args = (), daemon = True).start()
+logger.pr(f"Function the UpdateRAMLoadLabel is started")
+
 Thread(target = UpdateRAMFreeLabel, args = (), daemon = True).start()
+logger.pr(f"Function the UpdateRAMFreeLabel is started")
+
 Thread(target = UpdateSWAPLoadLabel, args = (), daemon = True).start()
+logger.pr(f"Function the UpdateSWAPLoadLabel is started")
+
 Thread(target = UpdateSWAPFreeLabel, args = (), daemon = True).start()
+logger.pr(f"Function the UpdateSWAPFreeLabel is started")
+
 Thread(target = AverageLoadIndicator, args = (), daemon = True).start()
+logger.pr(f"Function the AverageLoadIndicator is started")
 
 # Конец
 root.mainloop()

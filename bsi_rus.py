@@ -9,8 +9,10 @@ import time
 import sys
 import os
 
-class std:
-	cfgd = 	{
+# Настройки
+class settings:
+	class std:
+		cfgd = 	{
 				"timeouts":	{
 								"update-time":			0.5,
 								"update-cpu-load":		0.5,
@@ -21,14 +23,24 @@ class std:
 				"root":		{
 								"attributes":			False
 							}
-			}
+		}
+	ConfigFileName = "config.json"
 
-if "config.json" in os.listdir():
-	with open("config.json") as config_data_file:
+# Создание функций для debag
+class logger:
+	def pr(text: str, option = "-dev"):
+		if option in sys.argv:
+			print(text)
+
+# Загрузка конфигураций
+if settings.ConfigFileName in os.listdir():
+	with open(settings.ConfigFileName) as config_data_file:
 		cfgd = json.load(config_data_file)
+	logger.pr(f"Конфигурации загружены из файла '{settings.ConfigFileName}'")
 else:
-	with open("config.json", "w") as config_data_file:
-		json.dump(std.cfgd, config_data_file)
+	with open(settings.ConfigFileName, "w") as config_data_file:
+		json.dump(settings.settings.std.cfgd, config_data_file)
+	logger.pr(f"Файл конфигурации создан")
 
 class timeouts:
 	try:
@@ -38,21 +50,21 @@ class timeouts:
 		UpdateSWAP = cfgd["timeouts"]["update-swap"]
 		UpdateAverageLoad = cfgd["timeouts"]["update-average-load"]
 	except:
-		UpdateTime = std.cfgd["timeouts"]["update-time"]
-		UpdateCPULoad = std.cfgd["timeouts"]["update-cpu-load"]
-		UpdateRAM = std.cfgd["timeouts"]["update-ram"]
-		UpdateSWAP = std.cfgd["timeouts"]["update-swap"]
-		UpdateAverageLoad = std.cfgd["timeouts"]["update-average-load"]
+		UpdateTime = settings.std.cfgd["timeouts"]["update-time"]
+		UpdateCPULoad = settings.std.cfgd["timeouts"]["update-cpu-load"]
+		UpdateRAM = settings.std.cfgd["timeouts"]["update-ram"]
+		UpdateSWAP = settings.std.cfgd["timeouts"]["update-swap"]
+		UpdateAverageLoad = settings.std.cfgd["timeouts"]["update-average-load"]
 		with open("config.json", "w") as config_data_file:
-			json.dump(std.cfgd, config_data_file)
+			json.dump(settings.std.cfgd, config_data_file)
 
 class root_operation:
 	try:
 		attributes = cfgd["root"]["attributes"]
 	except:
-		attributes = std.cfgd["root"]["attributes"]
-		with open("config.json", "w") as config_data_file:
-			json.dump(std.cfgd, config_data_file)
+		attributes = settings.std.cfgd["root"]["attributes"]
+		with open(settings.ConfigFileName, "w") as config_data_file:
+			json.dump(settings.std.cfgd, config_data_file)
 
 class function_operation:
 	UpdateTime = True
@@ -63,15 +75,13 @@ class function_operation:
 
 class proginfo:
 	name = "БСИ (РУС)"
-	version = "0.1.4-beta"
+	version = "0.1.5-beta"
+	versionint = 0.15
 
 # Создаём окно
 root = tk.Tk()
-root.title(str(proginfo.name) + " v" + str(proginfo.version))
-if "-dev" in sys.argv:
-	root.geometry("450x210")
-else:
-	root.geometry("450x105")
+root.title(f"{proginfo.name} v{proginfo.version} ({proginfo.versionint})")
+root.geometry("450x105")
 if "icon.ico" in os.listdir():
 	root.iconbitmap('icon.ico')
 else:
@@ -246,7 +256,7 @@ def SwitchingOptionsAttributes(event):
 		cfgd["root"]["attributes"] = True
 		root.attributes("-topmost", root_operation.attributes)
 		ButtonSwitchingOptionsAttributes["fg"] = "green"
-	with open("config.json", "w") as config_data_file:
+	with open(settings.ConfigFileName, "w") as config_data_file:
 		json.dump(cfgd, config_data_file)
 
 def AverageLoadIndicator():
@@ -292,12 +302,19 @@ ButtonSwitchingOptionsAttributes.bind('<Button-1>', SwitchingOptionsAttributes)
 
 # Запуск в фоне
 Thread(target = UpdateTimeLabel, args = (), daemon = True).start()
+logger.pr(f"Функция UpdateTimeLabel запущена")
 Thread(target = UpdateCPULoadLabel, args = (), daemon = True).start()
+logger.pr(f"Функция UpdateCPULoadLabel запущена")
 Thread(target = UpdateRAMLoadLabel, args = (), daemon = True).start()
+logger.pr(f"Функция UpdateRAMLoadLabel запущена")
 Thread(target = UpdateRAMFreeLabel, args = (), daemon = True).start()
+logger.pr(f"Функция UpdateRAMFreeLabel запущена")
 Thread(target = UpdateSWAPLoadLabel, args = (), daemon = True).start()
+logger.pr(f"Функция UpdateSWAPLoadLabel запущена")
 Thread(target = UpdateSWAPFreeLabel, args = (), daemon = True).start()
+logger.pr(f"Функция UpdateSWAPFreeLabel запущена")
 Thread(target = AverageLoadIndicator, args = (), daemon = True).start()
+logger.pr(f"Функция AverageLoadIndicator запущена")
 
 # Конец
 root.mainloop()

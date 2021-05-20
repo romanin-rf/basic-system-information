@@ -1,3 +1,3 @@
 @echo off
-py bsi_rus.py
+py bsi_rus.py -dev
 pause
