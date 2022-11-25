@@ -17,7 +17,7 @@ except:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
