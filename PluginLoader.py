@@ -1,8 +1,15 @@
 import os
-import importlib
+import imp
 from kivy.uix.widget import Widget
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Any, Tuple
+
+# ! Info
+__title__ = "PluginLoader"
+__version__ = "0.1.1"
+__version_hash__ = hash(__version__)
+__author__ = "Romanin"
+__email__ = "semina054@gmail.com"
 
 # ! Constants
 LOCAL_PATH = os.path.dirname(__file__)
@@ -23,13 +30,13 @@ class PluginUI:
 # ! Classes
 class Plugin:
     def build_info(self) -> PluginInfo:
-        return PluginInfo("PluginLoader", "0.1.0")
+        return PluginInfo(__title__, __version__)
     
     def build_environ(self) -> Dict[str, Any]:
         return {}
     
     def build_ui(self) -> PluginUI:
-        return PluginUI("PluginLoader", None, False)
+        return PluginUI("Plugin\nLoader", None, False)
     
     def build_priority(self) -> int:
         return 0
@@ -61,16 +68,18 @@ class PluginLoader:
         self.plugins: List[Plugin] = []
         self.dir_name = os.path.basename(self.plugins_dirpath)
     
-    def get_plugins_paths(self) -> List[str]:
+    def get_plugins_paths(self) -> List[Tuple[str, str]]:
         ls = []
         for i in os.listdir(self.plugins_dirpath):
             if i not in self.ignore_files:
-                ls.append(os.path.join(self.plugins_dirpath, i))
+                if os.path.exists(m_path:=os.path.join(self.plugins_dirpath, i, "__init__.py")):
+                    ls.append((i, m_path))
         return ls
     
     def load_plugins(self) -> None:
-        for plugin_path in self.get_plugins_paths():
-            plugin = importlib.import_module(".".join([self.dir_name, os.path.basename(plugin_path)]), plugin_path)
+        for plugin_name, plugin_path in self.get_plugins_paths():
+            plugin_data = imp.find_module(plugin_name, [plugin_path, self.plugins_dirpath])
+            plugin = imp.load_module(plugin_name, *plugin_data)
             self.plugins.append(plugin.Main)
         self.plugins.sort(key=lambda plugin: plugin.priority)
     

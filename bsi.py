@@ -10,14 +10,18 @@ from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.config import Config
 from kivy.lang.builder import Builder
 from typing import Tuple
-try:
-    from plugins import PluginLoader as PluginLoader
-except:
-    import plugins.PluginLoader as PluginLoader
+
+# ! Other
+NO_PLUGIN_ARGUMENT = "/no-plugins"
+if NO_PLUGIN_ARGUMENT not in sys.argv:
+    try:
+        import PluginLoader as PluginLoader
+    except:
+        from . import PluginLoader as PluginLoader
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -28,14 +32,16 @@ LOCAL_DIR_PATH = os.path.dirname(__file__) \
     else os.path.dirname(sys.executable)
 CONFIG_PATH = os.path.join(LOCAL_DIR_PATH, "bin", "config.ini")
 KIVY_UI_PATH = os.path.join(LOCAL_DIR_PATH, "bin", "ui.kv")
+PLUGINS_PATH = os.path.join(LOCAL_DIR_PATH, "plugins")
 
 # ! Plugin Loader Initialization
-plugin_loader = PluginLoader.PluginLoader(ignore_files=["_ExamplePlugin"])
+if NO_PLUGIN_ARGUMENT not in sys.argv:
+    plugin_loader = PluginLoader.PluginLoader(PLUGINS_PATH, ["_ExamplePlugin"])
 
 # ! Config Initialization
 Config.read(CONFIG_PATH)
-
-plugin_loader.environ["config"] = Config
+if NO_PLUGIN_ARGUMENT not in sys.argv:
+    plugin_loader.environ["config"] = Config
 
 # ! Functions
 def get_ram_info() -> Tuple[int, int, int, float]:
@@ -55,15 +61,17 @@ def get_swap_info():
         round(((sm.total-sm.free)/sm.total)*100,1)
 
 # ! Loading Plugins
-plugin_loader.load_plugins()
+if NO_PLUGIN_ARGUMENT not in sys.argv:
+    plugin_loader.load_plugins()
 
 # ! Main Class
 class BSI(App):
     def build(self):
-        for i in plugin_loader.get_uis():
-            tpi = TabbedPanelItem(text=i[0])
-            tpi.add_widget(i[1])
-            self.w_root.add_widget(tpi)
+        if NO_PLUGIN_ARGUMENT not in sys.argv:
+            for i in plugin_loader.get_uis():
+                tpi = TabbedPanelItem(text=i[0])
+                tpi.add_widget(i[1])
+                self.w_root.add_widget(tpi)
         return self.w_root
     
     def ubsi(
@@ -107,11 +115,13 @@ class BSI(App):
                 self.w_root.ids["ProgressBarSWAPBusy"]
             )
         ).start()
-        plugin_loader.start()
+        if NO_PLUGIN_ARGUMENT not in sys.argv:
+            plugin_loader.start()
     
     def on_stop(self):
         self.ubsi_running = False
-        plugin_loader.stop()
+        if NO_PLUGIN_ARGUMENT not in sys.argv:
+            plugin_loader.stop()
     
     w_root: TabbedPanel = Builder.load_file(KIVY_UI_PATH)
     ubsi_running: bool = False
@@ -119,8 +129,10 @@ class BSI(App):
 
 # ! Starting
 if __name__ == '__main__':
-    plugin_loader.init_plugins()
+    if NO_PLUGIN_ARGUMENT not in sys.argv:
+        plugin_loader.init_plugins()
     bsi = BSI()
     bsi.title = f"{__title__} v{__version__}"
-    bsi.config = plugin_loader.environ["config"]
+    if NO_PLUGIN_ARGUMENT not in sys.argv:
+        bsi.config = plugin_loader.environ["config"]
     bsi.run()
