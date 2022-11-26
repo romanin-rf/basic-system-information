@@ -24,6 +24,7 @@ IGNORE_FILES = [os.path.basename(__file__), "__pycache__"]
 class PluginInfo:
     name: str
     version: str
+    author: str
     id: str
 
 @dataclass
@@ -35,7 +36,7 @@ class PluginUI:
 # ! Classes
 class Plugin:
     def build_info(self) -> PluginInfo:
-        return PluginInfo(__title__, __version__, "bsi.plugins.loader")
+        return PluginInfo(__title__, __version__, __author__, "bsi.plugins.loader")
     
     def build_environ(self) -> Dict[str, Any]:
         return {}
@@ -66,6 +67,13 @@ plugin_loader_ui = Builder.load_string(
 """\
 BoxLayout:
     GridLayout:
+        id: COLID
+        cols: 1
+        row_force_default: True
+        row_default_height: 30
+        Button:
+            text: 'ID'
+    GridLayout:
         id: COLPriority
         cols: 1
         row_force_default: True
@@ -87,12 +95,19 @@ BoxLayout:
         Button:
             text: 'Version'
     GridLayout:
+        id: COLAuthor
+        cols: 1
+        row_force_default: True
+        row_default_height: 30
+        Button:
+            text: 'Author'
+    GridLayout:
         id: COLWithUI
         cols: 1
         row_force_default: True
         row_default_height: 30
         Button:
-            text: 'With UI'
+            text: 'UI'
     GridLayout:
         id: COLOn
         cols: 1
@@ -109,7 +124,7 @@ class HiddenInt(int):
 
 class PluginLoaderUIPlugin(Plugin):    
     def build_info(self) -> PluginInfo:
-        return PluginInfo("PluginLoaderUI", __version__, "bsi.plugins.loader")
+        return PluginInfo("PluginLoaderUI", __version__, __author__, "pl.ui")
     
     def build_ui(self):
         return PluginUI("Plugin\nLoader UI", plugin_loader_ui, True)
@@ -117,12 +132,14 @@ class PluginLoaderUIPlugin(Plugin):
     def build_priority(self) -> int:
         return HiddenInt(-1024)
     
-    def add_row_in_ui(self, data: Tuple[Widget, Widget, Widget, Widget, Widget]) -> int:
+    def add_row_in_ui(self, data: Tuple[Widget, Widget, Widget, Widget, Widget, Widget, Widget]) -> int:
         self.ui.ui.ids["COLPriority"].add_widget(data[0])
-        self.ui.ui.ids["COLName"].add_widget(data[1])
-        self.ui.ui.ids["COLVersion"].add_widget(data[2])
-        self.ui.ui.ids["COLWithUI"].add_widget(data[3])
-        self.ui.ui.ids["COLOn"].add_widget(data[4])
+        self.ui.ui.ids["COLID"].add_widget(data[1])
+        self.ui.ui.ids["COLName"].add_widget(data[2])
+        self.ui.ui.ids["COLVersion"].add_widget(data[3])
+        self.ui.ui.ids["COLAuthor"].add_widget(data[4])
+        self.ui.ui.ids["COLWithUI"].add_widget(data[5])
+        self.ui.ui.ids["COLOn"].add_widget(data[6])
     
     def change_button_text(self, instance: Button, plugin_id: str) -> None:
         is_on = False if (instance.text == "Yes") else True
@@ -144,8 +161,10 @@ class PluginLoaderUIPlugin(Plugin):
             self.add_row_in_ui(
                 (
                     Label(text=str(i.priority)),
+                    Label(text=str(i.info.id)),
                     Label(text=i.info.name),
                     Label(text=i.info.version),
+                    Label(text=i.info.author),
                     Label(text=str( (i.ui.initialising) and (i.ui.ui is not None) )),
                     button_i
                 )
@@ -159,8 +178,10 @@ class PluginLoaderUIPlugin(Plugin):
             self.add_row_in_ui(
                 (
                     Label(text=str(i.priority)),
+                    Label(text=str(i.info.id)),
                     Label(text=i.info.name),
                     Label(text=i.info.version),
+                    Label(text=i.info.author),
                     Label(text=str( (i.ui.initialising) and (i.ui.ui is not None) )),
                     button_i
                 )

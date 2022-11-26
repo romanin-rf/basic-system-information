@@ -10,7 +10,7 @@ Label:
 
 class ExamplePlugin(pc.Plugin):
     def build_info(self) -> pc.PluginInfo:
-        return pc.PluginInfo("ExamplePlugin", "1.0.0", "example")
+        return pc.PluginInfo("ExamplePlugin", "1.0.0", "Romanin", "example")
     
     def build_ui(self):
         return pc.PluginUI("Example\nPlugin", ui, True)

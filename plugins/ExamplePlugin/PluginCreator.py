@@ -7,6 +7,7 @@ from typing import Optional, Dict, Any
 class PluginInfo:
     name: str
     version: str
+    author: str
     id: str
 
 @dataclass
