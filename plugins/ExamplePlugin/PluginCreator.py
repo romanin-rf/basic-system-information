@@ -7,6 +7,7 @@ from typing import Optional, Dict, Any
 class PluginInfo:
     name: str
     version: str
+    id: str
 
 @dataclass
 class PluginUI:
@@ -17,13 +18,13 @@ class PluginUI:
 # ! Classes
 class Plugin:
     def build_info(self) -> PluginInfo:
-        return PluginInfo("PluginLoader", "0.1.0")
+        return PluginInfo("...", "...", "any")
     
     def build_environ(self) -> Dict[str, Any]:
         return {}
     
     def build_ui(self) -> PluginUI:
-        return PluginUI("PluginLoader", None, False)
+        return PluginUI("...", None, False)
     
     def build_priority(self) -> int:
         return 0
@@ -34,7 +35,7 @@ class Plugin:
         self.environ: Dict[str, Any] = self.build_environ()
         self.ui: PluginUI = self.build_ui()
     
-    def init(self) -> None:
+    def init(self, self_pl: Any=None) -> None:
         pass
     
     def on_start(self) -> None:

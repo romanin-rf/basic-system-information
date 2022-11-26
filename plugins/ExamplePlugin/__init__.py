@@ -10,12 +10,15 @@ Label:
 
 class ExamplePlugin(pc.Plugin):
     def build_info(self) -> pc.PluginInfo:
-        return pc.PluginInfo("ExamplePlugin", "1.0.0")
+        return pc.PluginInfo("ExamplePlugin", "1.0.0", "example")
     
     def build_ui(self):
         return pc.PluginUI("Example\nPlugin", ui, True)
     
     def on_start(self) -> None:
-        print("- ExamplePlugin is stated")
+        print("- ExamplePlugin is starting...")
+    
+    def on_stop(self) -> None:
+        print("- ExamplePlugin is stoping...")
 
 Main = ExamplePlugin()

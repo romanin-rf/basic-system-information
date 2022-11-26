@@ -12,7 +12,7 @@ from kivy.lang.builder import Builder
 from typing import Tuple
 
 # ! Other
-NO_PLUGIN_ARGUMENT = "/no-plugins"
+NO_PLUGIN_ARGUMENT = "/noplugins"
 if NO_PLUGIN_ARGUMENT not in sys.argv:
     try:
         import PluginLoader as PluginLoader
@@ -21,7 +21,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -129,9 +129,10 @@ class BSI(App):
 
 # ! Starting
 if __name__ == '__main__':
-    if NO_PLUGIN_ARGUMENT not in sys.argv:
-        plugin_loader.init_plugins()
     bsi = BSI()
+    if NO_PLUGIN_ARGUMENT not in sys.argv:
+        plugin_loader.environ["bsi_app"] = bsi
+        plugin_loader.init_plugins()
     bsi.title = f"{__title__} v{__version__}"
     if NO_PLUGIN_ARGUMENT not in sys.argv:
         bsi.config = plugin_loader.environ["config"]
