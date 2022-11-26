@@ -30,6 +30,7 @@ __email__ = "semina054@gmail.com"
 LOCAL_DIR_PATH = os.path.dirname(__file__) \
     if os.path.basename(sys.executable).startswith("python") \
     else os.path.dirname(sys.executable)
+ICON_PATH = os.path.join(LOCAL_DIR_PATH, "bin", "icon.png")
 CONFIG_PATH = os.path.join(LOCAL_DIR_PATH, "bin", "config.ini")
 KIVY_UI_PATH = os.path.join(LOCAL_DIR_PATH, "bin", "ui.kv")
 PLUGINS_PATH = os.path.join(LOCAL_DIR_PATH, "plugins")
@@ -67,6 +68,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 # ! Main Class
 class BSI(App):
     def build(self):
+        self.icon = ICON_PATH
         if NO_PLUGIN_ARGUMENT not in sys.argv:
             for i in plugin_loader.get_uis():
                 tpi = TabbedPanelItem(text=i[0])
