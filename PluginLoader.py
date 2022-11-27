@@ -10,7 +10,7 @@ from typing import Optional, List, Dict, Any, Tuple
 
 # ! Info
 __title__ = "PluginLoader"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -36,7 +36,6 @@ class PluginUI:
 class HiddenInt(int):
     def __str__(self) -> None:
         return "..."
-    
 
 # ! Classes
 class Plugin:
@@ -274,6 +273,7 @@ class PluginLoader:
     
     def init_plugins(self) -> None:
         for plugin in self.plugins:
+            plugin.environ.update(self.environ)
             plugin.init(self)
     
     def get_uis(self) -> List[Tuple[str, Widget]]:

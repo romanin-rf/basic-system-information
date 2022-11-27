@@ -21,7 +21,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.2"
+__version__ = "0.2.5"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -133,7 +133,7 @@ class BSI(App):
 if __name__ == '__main__':
     bsi = BSI()
     if NO_PLUGIN_ARGUMENT not in sys.argv:
-        plugin_loader.environ["bsi_app"] = bsi
+        plugin_loader.environ["bsi"] = bsi
         plugin_loader.init_plugins()
     bsi.title = f"{__title__} v{__version__}"
     if NO_PLUGIN_ARGUMENT not in sys.argv:
