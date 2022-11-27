@@ -10,7 +10,7 @@ from typing import Optional, List, Dict, Any, Tuple
 
 # ! Info
 __title__ = "PluginLoader"
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -32,6 +32,11 @@ class PluginUI:
     title: str
     ui: Optional[Widget]
     initialising: bool
+
+class HiddenInt(int):
+    def __str__(self) -> None:
+        return "..."
+    
 
 # ! Classes
 class Plugin:
@@ -65,62 +70,62 @@ class Plugin:
 # ! Class Plugin Loader UI
 plugin_loader_ui = Builder.load_string(
 """\
-BoxLayout:
-    GridLayout:
-        id: COLID
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'ID'
-    GridLayout:
-        id: COLPriority
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'Priority'
-    GridLayout:
-        id: COLName
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'Name'
-    GridLayout:
-        id: COLVersion
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'Version'
-    GridLayout:
-        id: COLAuthor
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'Author'
-    GridLayout:
-        id: COLWithUI
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'UI'
-    GridLayout:
-        id: COLOn
-        cols: 1
-        row_force_default: True
-        row_default_height: 30
-        Button:
-            text: 'On'
+ScrollView:
+    do_scroll_x: False
+    do_scroll_y: True
+    bar_width: 10
+    BoxLayout:
+        GridLayout:
+            id: COLID
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'ID'
+        GridLayout:
+            id: COLPriority
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'Priority'
+        GridLayout:
+            id: COLName
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'Name'
+        GridLayout:
+            id: COLVersion
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'Version'
+        GridLayout:
+            id: COLAuthor
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'Author'
+        GridLayout:
+            id: COLWithUI
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'UI'
+        GridLayout:
+            id: COLOn
+            cols: 1
+            row_force_default: True
+            row_default_height: 30
+            Button:
+                text: 'On'
 """
 )
-
-class HiddenInt(int):
-    def __str__(self) -> None:
-        return "..."
 
 class PluginLoaderUIPlugin(Plugin):    
     def build_info(self) -> PluginInfo:
@@ -214,6 +219,14 @@ class PluginLoader:
         self.config_name: str = "plugins_config.json"
         self.config: List[Dict[str, Any]] = self.load_plugins_config(self.config_name)
         self.off_plugins: List[Plugin] = []
+    
+    def get_plugin_from_id(self, plugin_id: str, version: Optional[str]=None) -> Optional[Plugin]:
+        for i in self.plugins:
+            if (i.info.id == plugin_id) and ((version == i.info.version) if version != None else True):
+                return i
+        for _ in self.off_plugins:
+            if (_.info.id == plugin_id) and ((version == i.info.version) if version != None else True):
+                return _
     
     def exist_in_config(self, plugin_id: str) -> Optional[Dict[str, Any]]:
         for i in self.config:
