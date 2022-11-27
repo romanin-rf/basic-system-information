@@ -3,14 +3,14 @@ import imp
 import json
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
-from kivy.uix.button import Button
+from kivy.uix.switch import Switch
 from kivy.lang.builder import Builder
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Any, Tuple
 
 # ! Info
 __title__ = "PluginLoader"
-__version__ = "0.1.7"
+__version__ = "0.1.8"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -145,23 +145,22 @@ class PluginLoaderUIPlugin(Plugin):
         self.ui.ui.ids["COLWithUI"].add_widget(data[5])
         self.ui.ui.ids["COLOn"].add_widget(data[6])
     
-    def change_button_text(self, instance: Button, plugin_id: str) -> None:
-        is_on = False if (instance.text == "Yes") else True
-        instance.text = "Yes" if is_on else "No"
-        self.environ["plugin_loader"].update_plugin_config(plugin_id, is_on)
+    def change_button_text(self, instance: Switch, value: bool, plugin_id: str) -> None:
+        self.environ["plugin_loader"].update_plugin_config(plugin_id, value)
     
     def add_button_func(self, plugin_id: str, none: bool=False):
         if not none:
-            return lambda instance: self.change_button_text(instance, f"{plugin_id}")
+            return lambda instance, value: self.change_button_text(instance, value, f"{plugin_id}")
         else:
             return lambda instance: None
     
     def init(self, self_pl: Any) -> None:
         for i in self_pl.plugins:
-            button_i = Button(
-                text="Yes" if (i.info.id != self.info.id) else "...",
-                on_press=self.add_button_func(i.info.id, i.info.id==self.info.id)
-            )
+            if i.info.id != self.info.id:
+                switch_i = Switch(active=True)
+                switch_i.bind(active=self.add_button_func(i.info.id))
+            else:
+                switch_i = Label(text="...")
             self.add_row_in_ui(
                 (
                     Label(text=str(i.priority)),
@@ -170,15 +169,16 @@ class PluginLoaderUIPlugin(Plugin):
                     Label(text=i.info.version),
                     Label(text=i.info.author),
                     Label(text=str( (i.ui.initialising) and (i.ui.ui is not None) )),
-                    button_i
+                    switch_i
                 )
             )
         i: Plugin
         for i in self_pl.off_plugins:
-            button_i = Button(
-                text="No",
-                on_press=self.add_button_func(i.info.id, False)
+            switch_i = Switch(
+                active=False,
+                on_press=self.add_button_func(i.info.id)
             )
+            switch_i.bind(active=self.add_button_func(i.info.id))
             self.add_row_in_ui(
                 (
                     Label(text=str(i.priority)),
@@ -187,7 +187,7 @@ class PluginLoaderUIPlugin(Plugin):
                     Label(text=i.info.version),
                     Label(text=i.info.author),
                     Label(text=str( (i.ui.initialising) and (i.ui.ui is not None) )),
-                    button_i
+                    switch_i
                 )
             )
 

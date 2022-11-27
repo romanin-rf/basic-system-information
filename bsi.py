@@ -21,7 +21,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
