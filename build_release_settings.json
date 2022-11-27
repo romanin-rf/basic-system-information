@@ -15,7 +15,7 @@
   },
   {
    "optionDest": "console",
-   "value": true
+   "value": false
   },
   {
    "optionDest": "ascii",
@@ -24,10 +24,6 @@
   {
    "optionDest": "clean_build",
    "value": false
-  },
-  {
-   "optionDest": "debug",
-   "value": "all"
   },
   {
    "optionDest": "strip",
