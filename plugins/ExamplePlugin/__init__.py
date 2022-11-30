@@ -9,9 +9,6 @@ Label:
 )
 
 class ExamplePlugin(pc.Plugin):
-    def build_info(self) -> pc.PluginInfo:
-        return pc.PluginInfo("ExamplePlugin", "1.0.0", "Romanin", "example")
-    
     def build_ui(self):
         return pc.PluginUI("Example\nPlugin", ui, True)
     
@@ -21,4 +18,5 @@ class ExamplePlugin(pc.Plugin):
     def on_stop(self) -> None:
         print("- ExamplePlugin is stoping...")
 
-Main = ExamplePlugin()
+plugin_info = pc.PluginInfo("ExamplePlugin", "1.0.0", "Romanin", "example")
+plugin_main = ExamplePlugin

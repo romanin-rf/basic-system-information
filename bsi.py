@@ -21,7 +21,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.6"
+__version__ = "0.2.8"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -37,12 +37,13 @@ PLUGINS_PATH = os.path.join(LOCAL_DIR_PATH, "plugins")
 
 # ! Plugin Loader Initialization
 if NO_PLUGIN_ARGUMENT not in sys.argv:
-    plugin_loader = PluginLoader.PluginLoader(PLUGINS_PATH, ["_ExamplePlugin"])
+    bsi_environ = PluginLoader.Environ()
+    plugin_loader = PluginLoader.PluginLoader(PLUGINS_PATH, ["_ExamplePlugin"], bsi_environ)
 
 # ! Config Initialization
 Config.read(CONFIG_PATH)
 if NO_PLUGIN_ARGUMENT not in sys.argv:
-    plugin_loader.environ["config"] = Config
+    bsi_environ.environ["config"] = Config
 
 # ! Functions
 def get_ram_info() -> Tuple[int, int, int, float]:
@@ -90,7 +91,7 @@ class BSI(App):
                 cpu_load = psutil.cpu_percent()
                 ram_busy = get_ram_info()
                 swap_busy = get_swap_info()
-                #print(self.root_window.width, self.root_window.height, sep="x")
+                # // print(self.root_window.width, self.root_window.height, sep="x")
                 obj_cpu_load_value.text = f"{round(cpu_load,1)} %"
                 obj_cpu_load_prbar.value = cpu_load
                 obj_ram_busy_value.text = f"{ram_busy[1]} MB ({ram_busy[3]} %)"
@@ -133,9 +134,7 @@ class BSI(App):
 if __name__ == '__main__':
     bsi = BSI()
     if NO_PLUGIN_ARGUMENT not in sys.argv:
-        plugin_loader.environ["bsi"] = bsi
+        bsi_environ.environ["bsi"] = bsi
         plugin_loader.init_plugins()
     bsi.title = f"{__title__} v{__version__}"
-    if NO_PLUGIN_ARGUMENT not in sys.argv:
-        bsi.config = plugin_loader.environ["config"]
     bsi.run()

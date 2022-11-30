@@ -5,11 +5,8 @@ from kivy.uix.boxlayout import BoxLayout
 from .KivyOnTop import register_topmost, unregister_topmost
 
 class OnTopPlugin(pc.Plugin):
-    def build_info(self):
-        return pc.PluginInfo("OnTop", "1.0.0", "Romanin", "on.top")
-    
     def build_ui(self):
-        return pc.PluginUI("", None, False)
+        return pc.PluginUI("...", None, False)
     
     def change_button_topmost_status(self, instance: Switch, value: bool, window, title: str) -> None:
         if value:
@@ -22,13 +19,13 @@ class OnTopPlugin(pc.Plugin):
         sw = Switch(active=False)
         sw.bind(
             active=lambda instance, value: self.change_button_topmost_status(
-                    instance,
-                    value,
-                    self.environ["bsi"].root_window,
-                    self.environ["bsi"].title
+                instance,
+                value,
+                self.environ.environ["bsi"].root_window,
+                self.environ.environ["bsi"].title
             )
         )
-        bl.add_widget(Label(text="Режим\nПоверх Окон"))
+        bl.add_widget(Label(text="Режим Поверх Окон", font_size=12))
         bl.add_widget(sw)
         bl.add_widget(
             Label(
@@ -37,6 +34,7 @@ class OnTopPlugin(pc.Plugin):
                 markup=True
             )
         )
-        self.environ["bsi"].w_root.ids["BoxLayoutBSI"].add_widget(bl)
+        self.environ.environ["bsi"].w_root.ids["BoxLayoutBSI"].add_widget(bl)
 
-Main = OnTopPlugin()
+plugin_info = pc.PluginInfo("OnTop", "1.0.0", "Romanin", "on.top")
+plugin_main = OnTopPlugin
