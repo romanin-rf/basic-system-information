@@ -4,7 +4,8 @@ import json
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.uix.switch import Switch
-from kivy.lang.builder import Builder
+from kivy.uix.scrollview import ScrollView
+from kivymore.table import Table
 from typing import Optional, List, Dict, Any, Tuple
 # * Local Imports
 try:
@@ -14,7 +15,7 @@ except:
 
 # ! Info
 __title__ = "PluginLoader"
-__version__ = "0.2.0"
+__version__ = "0.2.2"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -24,82 +25,25 @@ LOCAL_PATH = os.path.dirname(__file__)
 IGNORE_FILES = [os.path.basename(__file__), "__pycache__"]
 
 # ! Class Plugin Loader UI
-plugin_loader_ui = Builder.load_string(
-"""\
-ScrollView:
-    do_scroll_x: False
-    do_scroll_y: True
-    bar_width: 10
-    BoxLayout:
-        GridLayout:
-            id: COLID
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'ID'
-        GridLayout:
-            id: COLPriority
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'Priority'
-        GridLayout:
-            id: COLName
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'Name'
-        GridLayout:
-            id: COLVersion
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'Version'
-        GridLayout:
-            id: COLAuthor
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'Author'
-        GridLayout:
-            id: COLWithUI
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'UI'
-        GridLayout:
-            id: COLOn
-            cols: 1
-            row_force_default: True
-            row_default_height: 30
-            Button:
-                text: 'On'
-"""
-)
-
 plugin_loader_info = PluginInfo("PluginLoaderUI", __version__, __author__, "pl.ui")
 
 class PluginLoaderUI(Plugin):
     def build_ui(self):
-        return PluginUI("Plugin\nLoader UI", plugin_loader_ui, True)
+        scroll_view = ScrollView(
+            do_scroll_x=False,
+            do_scroll_y=True,
+            bar_width=10,
+            size_hint=(1.0, 1.0)
+        )
+        self.table = Table(["ID", "Priority", "Name", "Version", "Author", "UI", "On"])
+        scroll_view.add_widget(self.table)
+        return PluginUI("Plugin\nLoader UI", scroll_view, True)
 
     def build_priority(self) -> int:
         return HiddenInt(-4096)
     
     def add_row_in_ui(self, data: Tuple[Widget, Widget, Widget, Widget, Widget, Widget, Widget]) -> int:
-        self.ui.ui.ids["COLPriority"].add_widget(data[0])
-        self.ui.ui.ids["COLID"].add_widget(data[1])
-        self.ui.ui.ids["COLName"].add_widget(data[2])
-        self.ui.ui.ids["COLVersion"].add_widget(data[3])
-        self.ui.ui.ids["COLAuthor"].add_widget(data[4])
-        self.ui.ui.ids["COLWithUI"].add_widget(data[5])
-        self.ui.ui.ids["COLOn"].add_widget(data[6])
+        self.table.add_row(data)
     
     def change_button_text(self, instance: Switch, value: bool, plugin_id: str) -> None:
         self.environ.environ["plugin_loader"].update_plugin_config(plugin_id, value)

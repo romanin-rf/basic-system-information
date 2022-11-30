@@ -1,13 +1,15 @@
-from kivy.uix.widget import Widget
 from dataclasses import dataclass
-from typing import Optional, Dict, Any
+from typing import Dict, Any, TypeVar
 
 # ? Metadata
 __name__ = "PluginCreator"
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
+
+# ? Type Constats
+T = TypeVar("T")
 
 # ? Dataclasses
 @dataclass
@@ -20,7 +22,7 @@ class PluginInfo:
 @dataclass
 class PluginUI:
     title: str
-    ui: Optional[Widget]
+    ui: T
     initialising: bool
 
 # ? Other Classes

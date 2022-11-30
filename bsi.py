@@ -21,7 +21,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.8"
+__version__ = "0.2.9"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -38,6 +38,7 @@ PLUGINS_PATH = os.path.join(LOCAL_DIR_PATH, "plugins")
 # ! Plugin Loader Initialization
 if NO_PLUGIN_ARGUMENT not in sys.argv:
     bsi_environ = PluginLoader.Environ()
+    
     plugin_loader = PluginLoader.PluginLoader(PLUGINS_PATH, ["_ExamplePlugin"], bsi_environ)
 
 # ! Config Initialization
