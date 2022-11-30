@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "D:/Documents/Github/basic-system-information/bsi.py"
+   "value": "C:/Users/user/Downloads/basic-system-information-main/bsi.py"
   },
   {
    "optionDest": "onefile",
@@ -43,7 +43,7 @@
   },
   {
    "optionDest": "embed_manifest",
-   "value": false
+   "value": true
   },
   {
    "optionDest": "uac_admin",
@@ -71,7 +71,27 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/Documents/Github/basic-system-information/PluginLoader.py;."
+   "value": "C:/Users/user/Downloads/basic-system-information-main/PluginCreator.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/user/Downloads/basic-system-information-main/PluginLoader.py;."
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/user/Downloads/basic-system-information-main/kivymore/__init__.py;./kivymore/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/user/Downloads/basic-system-information-main/kivymore/table.py;./kivymore/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/user/Downloads/basic-system-information-main/kivymore/table.pyi;./kivymore/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "C:/Users/user/Downloads/basic-system-information-main/kivymore/Units.py;./kivymore/"
   }
  ],
  "nonPyinstallerOptions": {
