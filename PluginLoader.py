@@ -15,7 +15,7 @@ except:
 
 # ! Info
 __title__ = "PluginLoader"
-__version__ = "0.2.2"
+__version__ = "0.2.4"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -35,24 +35,18 @@ class PluginLoaderUI(Plugin):
             bar_width=10,
             size_hint=(1.0, 1.0)
         )
-        self.table = Table(["ID", "Priority", "Name", "Version", "Author", "UI", "On"])
+        self.table = Table(["Priority", "ID", "Name", "Version", "Author", "UI", "On"])
         scroll_view.add_widget(self.table)
         return PluginUI("Plugin\nLoader UI", scroll_view, True)
 
     def build_priority(self) -> int:
         return HiddenInt(-4096)
     
-    def add_row_in_ui(self, data: Tuple[Widget, Widget, Widget, Widget, Widget, Widget, Widget]) -> int:
-        self.table.add_row(data)
-    
     def change_button_text(self, instance: Switch, value: bool, plugin_id: str) -> None:
         self.environ.environ["plugin_loader"].update_plugin_config(plugin_id, value)
     
-    def add_button_func(self, plugin_id: str, none: bool=False):
-        if not none:
-            return lambda instance, value: self.change_button_text(instance, value, f"{plugin_id}")
-        else:
-            return lambda instance: None
+    def add_button_func(self, plugin_id: str):
+        return lambda instance, value: self.change_button_text(instance, value, f"{plugin_id}")
     
     def init(self) -> None:
         for i in self.environ.environ["plugin_loader"].plugins:
@@ -61,32 +55,33 @@ class PluginLoaderUI(Plugin):
                 switch_i.bind(active=self.add_button_func(i.info.id))
             else:
                 switch_i = Label(text="...")
-            self.add_row_in_ui(
+            with_ui = (i.ui.initialising) and (i.ui.ui is not None)
+            with_ui_color = "00ff00" if with_ui else "ff0000"
+            self.table.add_row(
                 (
                     Label(text=str(i.priority)),
                     Label(text=str(i.info.id)),
                     Label(text=i.info.name),
                     Label(text=i.info.version),
                     Label(text=i.info.author),
-                    Label(text=str( (i.ui.initialising) and (i.ui.ui is not None) )),
+                    Label(text=f"[color={with_ui_color}]{with_ui}[/color]", markup=True),
                     switch_i
                 )
             )
-        i: PluginInfo
         for i in self.environ.environ["plugin_loader"].off_plugins:
             switch_i = Switch(
                 active=False,
                 on_press=self.add_button_func(i.id)
             )
             switch_i.bind(active=self.add_button_func(i.id))
-            self.add_row_in_ui(
+            self.table.add_row_alternative(
                 (
-                    Label(text="..."),
+                    "...",
                     Label(text=str(i.id)),
                     Label(text=i.name),
                     Label(text=i.version),
                     Label(text=i.author),
-                    Label(text="..."),
+                    "...",
                     switch_i
                 )
             )

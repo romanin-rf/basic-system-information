@@ -3,7 +3,7 @@ from typing import Dict, Any, TypeVar
 
 # ? Metadata
 __name__ = "PluginCreator"
-__version__ = "0.2.1"
+__version__ = "0.2.4"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -36,7 +36,7 @@ class Environ:
     def synchronisation(self, **kwargs): self.environ.update(**kwargs) ; return self
 
 # ? Constants
-STANDART_PLUGIN_INFO = PluginInfo(__name__, __version__, __author__, "bsi.plugins.loader")
+STANDART_PLUGIN_INFO = PluginInfo(__name__, __version__, __author__, "pl")
 
 # ? Plugin Class
 class Plugin:
@@ -44,7 +44,7 @@ class Plugin:
     def build_ui(self) -> PluginUI: return PluginUI("Plugin\nLoader", None, False)
     def build_priority(self) -> int: return 0
     def __init__(self, environ: Environ, plugin_info: PluginInfo=STANDART_PLUGIN_INFO) -> None:
-        self.priority = self.build_priority()
+        self.priority: int = self.build_priority()
         self.info: PluginInfo = plugin_info
         self.environ: Environ = environ.synchronisation(**self.build_environ())
         self.ui: PluginUI = self.build_ui()

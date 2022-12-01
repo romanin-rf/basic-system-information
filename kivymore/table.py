@@ -57,7 +57,13 @@ class Table(BoxLayout):
         self.add_row([Label(text=str(i), **kwargs) for i in data][:self.max_сolumns])
     
     def add_row_alternative(self, data: Iterable[Union[Widget, Any]], **kwargs) -> None:
-        self.add_row([(i if isinstance(i, WidgetMetaclass) else Label(text=str(i))) for i in data], **kwargs)
+        new_data = []
+        for i in data:
+            if type(i.__class__) == WidgetMetaclass:
+                new_data.append(i)
+            else:
+                new_data.append(Label(text=str(i)))
+        self.add_row(new_data, **kwargs)
     
     def search_row(self, by: units._By=By.COLOMN_NAME_AND_TEXT, **kwargs) -> Optional[List[Widget]]:
         get_text = kwargs.get("on_text", None) or _gt

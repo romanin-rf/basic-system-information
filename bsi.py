@@ -10,6 +10,8 @@ from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.config import Config
 from kivy.lang.builder import Builder
 from typing import Tuple
+# ! Дополнительные библеотеки для создания плагинов
+import keyboard, mouse
 
 # ! Other
 NO_PLUGIN_ARGUMENT = "/noplugins"
@@ -21,7 +23,7 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
 
 # ! Constants Info
 __title__ = "BSI"
-__version__ = "0.2.9"
+__version__ = "0.2.12"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
