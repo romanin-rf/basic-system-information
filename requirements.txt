@@ -2,3 +2,5 @@ psutil
 kivy
 pillow
 dataclasses
+mouse
+keyboard

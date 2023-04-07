@@ -17,7 +17,7 @@ except: from PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Envir
 
 # ! Info
 __title__ = "PluginLoader"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -25,6 +25,17 @@ __email__ = "semina054@gmail.com"
 # ! Constants
 LOCAL_PATH = os.path.dirname(__file__)
 IGNORE_FILES = [os.path.basename(__file__), "__pycache__"]
+
+# ! Functions
+def ender(string: str, wigth: int=7) -> str:
+    return string+(" "*(wigth-len(string)))
+
+def log(tp: str="INFO", source: str="PLUGINS", text: str="") -> str:
+    return "[{type_name}] [{source_name}] {text}".format(
+        type_name=ender(tp, 7),
+        source_name=ender(source, 12),
+        text=text
+    )
 
 # ! Class Plugin Loader UI
 plugin_loader_info = PluginInfo("PluginLoaderUI", __version__, __author__, "pl.ui")
@@ -157,19 +168,29 @@ class PluginLoader:
     
     def load_plugins(self) -> None:
         for plugin_name, plugin_path in self.get_plugins_paths():
-            plugin_data = imp.find_module(plugin_name, [plugin_path, self.plugins_dirpath])
-            plugin_module = imp.load_module(plugin_name, *plugin_data)
-            plugin_info: PluginInfo = plugin_module.plugin_info
-            plugin: type[Plugin] = plugin_module.plugin_main
-            if (cpli:=self.exist_in_config(plugin_info.id)) is not None:
-                plugin_on = cpli["on"]
-            else:
-                self.add_plugin_in_config(plugin_info)
-                plugin_on = True
-            if plugin_on:
-                self.plugins.append(plugin(self.environ, plugin_info))
-            else:
-                self.off_plugins.append(plugin_info)
+            try:
+                plugin_data = imp.find_module(plugin_name, [plugin_path, self.plugins_dirpath])
+                plugin_module = imp.load_module(plugin_name, *plugin_data)
+                print(log("INFO", "PLUGINS", f"The plugin `{plugin_name}` has been loaded"))
+                plugin_info: PluginInfo = plugin_module.plugin_info
+                print(log("INFO", "PLUGINS", f"Info about the `{plugin_name}` ({plugin_info.name}) plugin:"))
+                print(log("INFO", "PLUGINS", f"\tID: {plugin_info.id}"))
+                print(log("INFO", "PLUGINS", f"\tAUTHOR: {plugin_info.author}"))
+                print(log("INFO", "PLUGINS", f"\tVERSION: {plugin_info.version}"))
+                plugin: type[Plugin] = plugin_module.plugin_main
+
+                if (cpli:=self.exist_in_config(plugin_info.id)) is not None:
+                    plugin_on = cpli["on"]
+                else:
+                    self.add_plugin_in_config(plugin_info)
+                    plugin_on = True
+                if plugin_on:
+                    self.plugins.append(plugin(self.environ, plugin_info))
+                else:
+                    self.off_plugins.append(plugin_info)
+            except Exception as e:
+                print(log("ERROR", "PLUGINS", f"Failed to load plugin `{plugin_name}` ({plugin_path})"))
+                print(log("ERROR", "PLUGINS", f"{e.__class__.__name__}: {e.__str__()}"))
         self.plugins.sort(key=lambda plugin: plugin.priority)
     
     def init_plugins(self) -> None:
