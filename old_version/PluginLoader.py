@@ -1,17 +1,19 @@
 import os
 import imp
 import json
-from kivy.uix.widget import Widget
-from kivy.uix.label import Label
+# > KivyMD
+from kivymd.uix.label import MDLabel
+from kivymd.uix.scrollview import MDScrollView
+# > Kivy
 from kivy.uix.switch import Switch
-from kivy.uix.scrollview import ScrollView
+from kivy.uix.widget import Widget
+# > Custom Modules
 from kivymore.table import Table
+# > Typing
 from typing import Optional, List, Dict, Any, Tuple
-# * Local Imports
-try:
-    from .PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
-except:
-    from PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
+# > Local Imports
+try: from .PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
+except: from PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
 
 # ! Info
 __title__ = "PluginLoader"
@@ -29,7 +31,7 @@ plugin_loader_info = PluginInfo("PluginLoaderUI", __version__, __author__, "pl.u
 
 class PluginLoaderUI(Plugin):
     def build_ui(self):
-        scroll_view = ScrollView(
+        scroll_view = MDScrollView(
             do_scroll_x=False,
             do_scroll_y=True,
             bar_width=10,
@@ -54,17 +56,17 @@ class PluginLoaderUI(Plugin):
                 switch_i = Switch(active=True)
                 switch_i.bind(active=self.add_button_func(i.info.id))
             else:
-                switch_i = Label(text="...")
+                switch_i = MDLabel(text="...")
             with_ui = (i.ui.initialising) and (i.ui.ui is not None)
             with_ui_color = "00ff00" if with_ui else "ff0000"
             self.table.add_row(
                 (
-                    Label(text=str(i.priority)),
-                    Label(text=str(i.info.id)),
-                    Label(text=i.info.name),
-                    Label(text=i.info.version),
-                    Label(text=i.info.author),
-                    Label(text=f"[color={with_ui_color}]{with_ui}[/color]", markup=True),
+                    MDLabel(text=str(i.priority)),
+                    MDLabel(text=str(i.info.id)),
+                    MDLabel(text=i.info.name),
+                    MDLabel(text=i.info.version),
+                    MDLabel(text=i.info.author),
+                    MDLabel(text=f"[color={with_ui_color}]{with_ui}[/color]", markup=True),
                     switch_i
                 )
             )
@@ -77,10 +79,10 @@ class PluginLoaderUI(Plugin):
             self.table.add_row_alternative(
                 (
                     "...",
-                    Label(text=str(i.id)),
-                    Label(text=i.name),
-                    Label(text=i.version),
-                    Label(text=i.author),
+                    MDLabel(text=str(i.id)),
+                    MDLabel(text=i.name),
+                    MDLabel(text=i.version),
+                    MDLabel(text=i.author),
                     "...",
                     switch_i
                 )

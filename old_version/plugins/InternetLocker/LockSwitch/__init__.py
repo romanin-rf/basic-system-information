@@ -1,0 +1,1 @@
+from .LockSwitch import search_info, block_program, unblock_program, ProccessInfo

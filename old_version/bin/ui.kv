@@ -1,0 +1,75 @@
+TabbedPanel:
+    do_default_tab: False
+    TabbedPanelItem:
+        text: "BSI"
+        MDBoxLayout:
+            id: BoxLayoutBSI
+            orientation: 'vertical'
+            MDGridLayout:
+                padding: "10dp"
+                cols: 3
+                rows: 1
+                MDLabel:
+                    text: "CPU (Load)"
+                    halign: 'center'
+                MDProgressBar:
+                    id: ProgressBarCPULoad
+                    max: 100
+                MDLabel:
+                    id: LabelCPULoad
+                    text: "Loading..."
+                    halign: 'center'
+            MDGridLayout:
+                padding: "10dp"
+                cols: 3
+                rows: 1
+                MDLabel:
+                    text: "RAM (Busy)"
+                    halign: 'center'
+                MDProgressBar:
+                    id: ProgressBarRAMBusy
+                    max: 100
+                MDLabel:
+                    id: LabelRAMBusy
+                    text: "Loading..."
+                    halign: 'center'
+            MDGridLayout:
+                padding: "10dp"
+                cols: 3
+                rows: 1
+                MDLabel:
+                    text: "RAM (Total)"
+                    halign: 'center'
+                MDProgressBar:
+                    max: 100
+                    value: 100
+                MDLabel:
+                    id: LabelRAMTotal
+                    text: "Loading..."
+                    halign: 'center'
+            MDGridLayout:
+                padding: "10dp"
+                cols: 3
+                rows: 1
+                MDLabel:
+                    text: "SWAP (Busy)"
+                    halign: 'center'
+                MDProgressBar:
+                    id: ProgressBarSWAPBusy
+                    max: 100
+                MDLabel:
+                    id: LabelSWAPBusy
+                    text: "Loading..."
+                    halign: 'center'
+            MDGridLayout:
+                padding: "10dp"
+                cols: 3
+                rows: 1
+                MDLabel:
+                    text: "SWAP (Total)"
+                MDProgressBar:
+                    max: 100
+                    value: 100
+                MDLabel:
+                    id: LabelSWAPTotal
+                    text: "Loading..."

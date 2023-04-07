@@ -3,23 +3,27 @@ import sys
 import psutil
 import time
 from threading import Thread
-from kivy.app import App
-from kivy.uix.label import Label
-from kivy.uix.progressbar import ProgressBar
+# > KivyMD
+from kivymd.app import MDApp
+from kivymd.uix.label import MDLabel
+from kivymd.uix.progressbar import MDProgressBar
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.gridlayout import MDGridLayout
+# > Kivy
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.config import Config
 from kivy.lang.builder import Builder
+# > Typing
 from typing import Tuple
-# ! Дополнительные библеотеки для создания плагинов
+# > Дополнительные библеотеки для создания плагинов
 import keyboard, mouse
 
 # ! Other
 NO_PLUGIN_ARGUMENT = "/noplugins"
 if NO_PLUGIN_ARGUMENT not in sys.argv:
-    try:
-        import PluginLoader as PluginLoader
-    except:
-        from . import PluginLoader as PluginLoader
+    try: import PluginLoader as PluginLoader
+    except: from . import PluginLoader as PluginLoader
 
 # ! Constants Info
 __title__ = "BSI"
@@ -40,7 +44,6 @@ PLUGINS_PATH = os.path.join(LOCAL_DIR_PATH, "plugins")
 # ! Plugin Loader Initialization
 if NO_PLUGIN_ARGUMENT not in sys.argv:
     bsi_environ = PluginLoader.Environ()
-    
     plugin_loader = PluginLoader.PluginLoader(PLUGINS_PATH, ["_ExamplePlugin"], bsi_environ)
 
 # ! Config Initialization
@@ -70,9 +73,10 @@ if NO_PLUGIN_ARGUMENT not in sys.argv:
     plugin_loader.load_plugins()
 
 # ! Main Class
-class BSI(App):
+class BSI(MDApp):
     def build(self):
         self.icon = ICON_PATH
+        self.w_root: TabbedPanel = Builder.load_file(KIVY_UI_PATH)
         if NO_PLUGIN_ARGUMENT not in sys.argv:
             for i in plugin_loader.get_uis():
                 tpi = TabbedPanelItem(text=i[0])
@@ -82,12 +86,12 @@ class BSI(App):
     
     def ubsi(
         self,
-        obj_cpu_load_value: Label,
-        obj_cpu_load_prbar: ProgressBar,
-        obj_ram_busy_value: Label,
-        obj_ram_busy_prbar: ProgressBar,
-        obj_swap_busy_value: Label,
-        obj_swap_busy_prbar: ProgressBar
+        obj_cpu_load_value: MDLabel,
+        obj_cpu_load_prbar: MDProgressBar,
+        obj_ram_busy_value: MDLabel,
+        obj_ram_busy_prbar: MDProgressBar,
+        obj_swap_busy_value: MDLabel,
+        obj_swap_busy_prbar: MDProgressBar
     ):
         while self.ubsi_running:
             try:
@@ -129,7 +133,6 @@ class BSI(App):
         if NO_PLUGIN_ARGUMENT not in sys.argv:
             plugin_loader.stop()
     
-    w_root: TabbedPanel = Builder.load_file(KIVY_UI_PATH)
     ubsi_running: bool = False
     update_timeout = float(Config.get("bsi", "update_timeout"))
 
