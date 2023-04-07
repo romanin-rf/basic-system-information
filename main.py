@@ -20,8 +20,8 @@ from typing import Tuple
 # > Дополнительные библеотеки для создания плагинов
 import keyboard, mouse
 # > Locals Modules
-try: from bsi_obj import *
-except: from .bsi_obj import *
+try: from kivybsi.objects import *
+except: from .kivybsi.objects import *
 
 # ! App Info
 __title__ = "BSI"
