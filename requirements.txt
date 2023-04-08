@@ -1,5 +1,6 @@
 psutil
 kivy
+kivymd
 pillow
 dataclasses
 mouse

@@ -2,57 +2,53 @@ MDScreen:
     MDNavigationLayout:
         MDScreenManager:
             id: main_screen_manager
-            MDScreen:
+            BSIScreen:
                 name: 'bsi'
-                MDBoxLayout:
-                    id: bsi_main_box
-                    orientation: 'vertical'
-                    padding: "0dp", "65dp", "0dp", "0dp"
-                    BSILineGridLayout:
-                        BSICenterLabel:
-                            text: "CPU (Load)"
-                        MDProgressBar:
-                            id: ProgressBarCPULoad
-                            max: 100
-                        BSICenterLabel:
-                            id: LabelCPULoad
-                            text: "Loading..."
-                    BSILineGridLayout:
-                        BSICenterLabel:
-                            text: "RAM (Busy)"
-                        MDProgressBar:
-                            id: ProgressBarRAMBusy
-                            max: 100
-                        BSICenterLabel:
-                            id: LabelRAMBusy
-                            text: "Loading..."
-                    BSILineGridLayout:
-                        BSICenterLabel:
-                            text: "RAM (Total)"
-                        MDProgressBar:
-                            max: 100
-                            value: 100
-                        BSICenterLabel:
-                            id: LabelRAMTotal
-                            text: "Loading..."
-                    BSILineGridLayout:
-                        BSICenterLabel:
-                            text: "SWAP (Busy)"
-                        MDProgressBar:
-                            id: ProgressBarSWAPBusy
-                            max: 100
-                        BSICenterLabel:
-                            id: LabelSWAPBusy
-                            text: "Loading..."
-                    BSILineGridLayout:
-                        BSICenterLabel:
-                            text: "SWAP (Total)"
-                        MDProgressBar:
-                            max: 100
-                            value: 100
-                        BSICenterLabel:
-                            id: LabelSWAPTotal
-                            text: "Loading..."
+                BSILineGridLayout:
+                    BSICenterLabel:
+                        text: "CPU (Load)"
+                    MDProgressBar:
+                        id: ProgressBarCPULoad
+                        max: 100
+                    BSICenterLabel:
+                        id: LabelCPULoad
+                        text: "Loading..."
+                BSILineGridLayout:
+                    BSICenterLabel:
+                        text: "RAM (Busy)"
+                    MDProgressBar:
+                        id: ProgressBarRAMBusy
+                        max: 100
+                    BSICenterLabel:
+                        id: LabelRAMBusy
+                        text: "Loading..."
+                BSILineGridLayout:
+                    BSICenterLabel:
+                        text: "RAM (Total)"
+                    MDProgressBar:
+                        max: 100
+                        value: 100
+                    BSICenterLabel:
+                        id: LabelRAMTotal
+                        text: "Loading..."
+                BSILineGridLayout:
+                    BSICenterLabel:
+                        text: "SWAP (Busy)"
+                    MDProgressBar:
+                        id: ProgressBarSWAPBusy
+                        max: 100
+                    BSICenterLabel:
+                        id: LabelSWAPBusy
+                        text: "Loading..."
+                BSILineGridLayout:
+                    BSICenterLabel:
+                        text: "SWAP (Total)"
+                    MDProgressBar:
+                        max: 100
+                        value: 100
+                    BSICenterLabel:
+                        id: LabelSWAPTotal
+                        text: "Loading..."
         MDTopAppBar:
             title: "BSI"
             elevation: 4
@@ -71,7 +67,7 @@ MDScreen:
                     padding: "12dp", 0, 0, "56dp"
                 MDNavigationDrawerLabel:
                     text: "Sections"
-                BSINavigationDrawerClickableItem:
+                BSINavigationDrawerItem:
                     icon: "cellphone-information"
                     text: "Basic System Info"
                     selected: True
