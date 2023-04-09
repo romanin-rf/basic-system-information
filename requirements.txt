@@ -5,3 +5,4 @@ pillow
 dataclasses
 mouse
 keyboard
+rich

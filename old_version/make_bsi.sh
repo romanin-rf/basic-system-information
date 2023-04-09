@@ -1,3 +1,0 @@
-BSI_LOCAL_PATH = "$(pwd)"
-python3.9 -m pip install -r requirements.txt --upgrade
-python3.9 -m PyInstaller --noconfirm --onefile --windowed --add-data "${BSI_LOCAL_PATH}/PluginCreator.py;." --add-data "${BSI_LOCAL_PATH}/PluginLoader.py;." --add-data "${BSI_LOCAL_PATH}/kivymore/__init__.py;./kivymore/" --add-data "${BSI_LOCAL_PATH}/kivymore/table.py;./kivymore/" --add-data "${BSI_LOCAL_PATH}/kivymore/table.pyi;./kivymore/" --add-data "${BSI_LOCAL_PATH}/kivymore/Units.py;./kivymore/"  "${BSI_LOCAL_PATH}/bsi.py"

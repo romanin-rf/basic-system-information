@@ -1,14 +1,15 @@
 from kivymd.uix.label import MDLabel
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.uix.progressbar import MDProgressBar
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.navigationdrawer import MDNavigationDrawerMenu, MDNavigationDrawer, MDNavigationDrawerItem
-from kivy.properties import ColorProperty, StringProperty, NumericProperty
+from kivymd.uix.navigationdrawer import MDNavigationDrawerItem
 
 class BSINavigationDrawerItem(MDNavigationDrawerItem):
-    selected_color = ColorProperty("#b83950")
-    ripple_color = ColorProperty("#ffffff")
+    def __init__(self, *args, **kwargs):
+        kwargs["selected_color"] = kwargs.get("selected_color", "#b83950")
+        kwargs["ripple_color"] = kwargs.get("ripple_color", "#ffffff")
+        
+        super().__init__(*args, **kwargs)
 
 class BSILineGridLayout(MDGridLayout):
     def __init__(self, *args, **kwargs):

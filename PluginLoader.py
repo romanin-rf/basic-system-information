@@ -7,12 +7,10 @@ from kivymd.uix.scrollview import MDScrollView
 # > Kivy
 from kivy.uix.switch import Switch
 from kivy.uix.widget import Widget
-# > Custom Modules
-from kivymore.table import Table
 # > Typing
 from typing import Optional, List, Dict, Any, Tuple
 # > Local Imports
-try: from .PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
+try: from PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
 except: from PluginCreator import Plugin, PluginInfo, PluginUI, HiddenInt, Environ
 
 # ! Info
@@ -172,7 +170,7 @@ class PluginLoader:
                 plugin_data = imp.find_module(plugin_name, [plugin_path, self.plugins_dirpath])
                 plugin_module = imp.load_module(plugin_name, *plugin_data)
                 print(log("INFO", "PLUGINS", f"The plugin `{plugin_name}` has been loaded"))
-                plugin_info: PluginInfo = plugin_module.plugin_info
+                plugin_info: PluginInfo = plugin_module.info
                 print(log("INFO", "PLUGINS", f"Info about the `{plugin_name}` ({plugin_info.name}) plugin:"))
                 print(log("INFO", "PLUGINS", f"\tID: {plugin_info.id}"))
                 print(log("INFO", "PLUGINS", f"\tAUTHOR: {plugin_info.author}"))
