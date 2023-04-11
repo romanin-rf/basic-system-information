@@ -11,7 +11,7 @@ from kivymd.uix.navigationdrawer import MDNavigationDrawerMenu
 from kivy.lang.builder import Builder
 from kivy.clock import Clock
 # > Typing
-from typing import Tuple
+from typing import Tuple, Dict, Any
 # > Дополнительные библеотеки для создания плагинов
 import keyboard, mouse
 # > Locals Modules
@@ -29,6 +29,11 @@ __email__ = "semina054@gmail.com"
 
 # ! Other
 console = Console()
+
+def lsattr(obj: object) -> Dict[str, Any]:
+    attrs = {}
+    for i in dir(obj): attrs[i] = eval(f"obj.{i}")
+    return attrs
 
 LOCAL_DIR_PATH = ...
 ICON_PATH = ...

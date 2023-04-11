@@ -284,7 +284,6 @@ class PluginLoader:
                 except: pass
             except:
                 console.print_exception()
-        console.print(self.all_plugins)
     
     def init_plugins(self) -> None:
         if (pre_init_plugin_func:=getattr(self.plm, "pre_init", None)) is not None:

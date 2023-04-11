@@ -23,10 +23,9 @@ class ExamplePlugin(Plugin):
     def on_stop(self) -> None:
         print("* Example Plugin is stoped...")
 
-def pre_init(pl: PluginLoader, bsi: BSI) -> None: print("* Example Plugin - 'pre_init' method called...")
+def pre_init(pl: PluginLoader, bsi: BSI) -> None:
+    print("* Example Plugin - 'pre_init' method called...")
 
 plugin_info = PluginInfo("Example Plugin", "bsi.example", "0.1.0", "Romanin")
 plugin_ui_info = PluginUIInfo(True, "hexagon", "example_plugin_screen", "Example Plugin")
 plugin_main = ExamplePlugin
-
-print("* Example Plugin is loaded...")

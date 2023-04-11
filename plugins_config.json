@@ -1,1 +1,1 @@
-{"bsi.example": {"name": "Example Plugin", "name_id": "bsi.example", "version": "0.1.0", "author": "Romanin", "enabled": false}}
+{"bsi.example": {"name": "Example Plugin", "name_id": "bsi.example", "version": "0.1.0", "author": "Romanin", "enabled": false}, "bsi.translate.russian": {"name": "Russian Translate Plugin", "name_id": "bsi.translate.russian", "version": "0.3.0", "author": "Romanin", "enabled": true}}
