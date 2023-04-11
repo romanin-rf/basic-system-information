@@ -3,16 +3,11 @@ import pathlib
 import imp
 import json
 from rich.console import Console
-# > Kivy
-from kivy.metrics import dp
 # > KivyMD
-from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.list import MDList
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.list import IRightBodyTouch, ThreeLineAvatarIconListItem, IconLeftWidget
-from kivymd.uix.selectioncontrol import MDCheckbox
-from kivymd.icon_definitions import md_icons
 # > Typing
 from typing import Optional, List, Dict, Any, Tuple, Type
 from types import ModuleType
@@ -24,7 +19,7 @@ except: from .uix import BSIScreen, BSINavigationDrawerItem
 
 # ! Metadata
 __name__ = "PluginCreator"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -60,7 +55,7 @@ class BSIRigthSwitch(IRightBodyTouch, MDSwitch):
     def on_active(self, instance_switch, active_value: bool) -> None:
         super().on_active(instance_switch, active_value)
         try: self.plugin_loader.config.change_settings(self.plugin_info, active_value)
-        except: console.print_exception()
+        except: pass
 
 class BSIList3LinesSwitchItem(ThreeLineAvatarIconListItem):
     def __init__(
@@ -279,7 +274,7 @@ class PluginLoader:
                 else:
                     try: raise RuntimeError(f"Critical error when loading the '{plugin_module.plugin_info.name}' ({plugin_module.plugin_info.name_id}) plugin.")
                     except: console.print_exception()
-                    
+
                 try: console.print(self.plugin_settings)
                 except: pass
             except:
@@ -328,12 +323,14 @@ class PluginLoader:
     def start_plugins(self) -> None:
         self.plugin_loader_ui.on_start()
         for plugin_module, plugin in self.on_plugins:
-            plugin.on_start()
+            try: plugin.on_start()
+            except: console.print_exception()
     
     def stop_plugins(self) -> None:
         self.plugin_loader_ui.on_stop()
         for plugin_module, plugin in self.on_plugins:
-            plugin.on_stop()
+            try: plugin.on_stop()
+            except: console.print_exception()
     
     def run(self) -> None:
         self.load_plugins()

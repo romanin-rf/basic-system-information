@@ -20,7 +20,7 @@ def globalizer(dirpath: str) -> list:
 # * Ну, setup
 setuptools.setup(
 	name="bsipack",
-	version="0.1.0",
+	version="0.3.1",
 	description='BSI Packages.',
 	keywords=['bsipack'],
 	packages=setuptools.find_packages(),
@@ -30,6 +30,6 @@ setuptools.setup(
 	include_package_data=True,
 	author='ProgrammerFromParlament',
 	license='MIT',
-	install_requires=["kivy", "kivymd", "rich", "psutil", "pillow", "dataclasses", "mouse", "keyboard"],
-    setup_requires=["kivy", "kivymd", "rich", "psutil", "pillow", "dataclasses", "mouse", "keyboard"]
+	install_requires=["kivy", "kivymd", "rich", "psutil", "pillow", "dataclasses"],
+    setup_requires=["kivy", "kivymd", "rich", "psutil", "pillow", "dataclasses"]
 )

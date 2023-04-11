@@ -12,8 +12,6 @@ from kivy.lang.builder import Builder
 from kivy.clock import Clock
 # > Typing
 from typing import Tuple, Dict, Any
-# > Дополнительные библеотеки для создания плагинов
-import keyboard, mouse
 # > Locals Modules
 try:    from .uix import *
 except: from uix import *
@@ -22,7 +20,7 @@ except: from pluginloader import PluginLoader
 
 # ! App Info
 __title__ = "BSI"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"

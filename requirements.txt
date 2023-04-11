@@ -3,6 +3,4 @@ kivy
 kivymd
 pillow
 dataclasses
-mouse
-keyboard
 rich

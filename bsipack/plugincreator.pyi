@@ -3,6 +3,14 @@ from dataclasses import dataclass
 try:    from .bsi import *
 except: from bsi import *
 
+# ! MetaData
+__title__ = "PluginCreator"
+__version__ = "0.3.1"
+__version_hash__ = hash(__version__)
+__author__ = "Romanin"
+__email__ = "semina054@gmail.com"
+
+# ! Main Objects
 @dataclass
 class PluginInfo:
     name: str
