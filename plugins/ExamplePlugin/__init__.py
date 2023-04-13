@@ -26,6 +26,12 @@ class ExamplePlugin(Plugin):
 def pre_init(pl: PluginLoader, bsi: BSI) -> None:
     print("* Example Plugin - 'pre_init' method called...")
 
-plugin_info = PluginInfo("Example Plugin", "bsi.example", "0.1.0", "Romanin")
+plugin_info = PluginInfo(
+    "Example Plugin",
+    "bsi.example",
+    "An example plugin.",
+    "1.0.0",
+    "Romanin"
+)
 plugin_ui_info = PluginUIInfo(True, "hexagon", "example_plugin_screen", "Example Plugin")
 plugin_main = ExamplePlugin

@@ -1,6 +1,13 @@
-import bsipack.bsi as bsi
+from rich.console import Console
+console = Console()
 
-bsi.init(__file__)
+try: 
+    import bsipack.bsi as bsi
+    from rich.console import Console
 
-if __name__ == "__main__":
-    bsi.start_bsi()
+    bsi.init(__file__)
+
+    if __name__ == "__main__":
+        bsi.start_bsi()
+
+except:console.print_exception(word_wrap=True, show_locals=True)

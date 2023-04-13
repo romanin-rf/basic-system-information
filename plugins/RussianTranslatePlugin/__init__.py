@@ -20,6 +20,12 @@ def pre_init(pl: PluginLoader, bsi: BSI) -> None:
     bsi.bsi_ms.children[0].children[-4].children[-1].text = "Файл Подкачки (Занято)"
     bsi.bsi_ms.children[0].children[-5].children[-1].text = "Файл Подкачки (Всего)"
 
-plugin_info = PluginInfo("Russian Translate Plugin", "bsi.translate.russian", "0.3.0", "Romanin")
+plugin_info = PluginInfo(
+    "Русский Перевод",
+    "bsi.translate.russian",
+    "Русский перевод для BSI.",
+    "0.3.1",
+    "Romanin"
+)
 plugin_ui_info = PluginUIInfo(False, "sign-language", "", "Russian Translate Plugin")
 plugin_main = RussianTranslatePlugin
