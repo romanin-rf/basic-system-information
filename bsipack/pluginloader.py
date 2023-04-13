@@ -167,7 +167,7 @@ class PluginModuleType(ModuleType):
             self.pre_init = pre_init_func
 
 # ! PluginLoaderUI
-PluginLoaderUI_Info = PluginInfo("Plugin Loader UI", "bsi.pluginloader.ui", "UI for PluginLoader.", "0.3.0", "Romanin")
+PluginLoaderUI_Info = PluginInfo("Plugin Loader UI", "bsi.pluginloader.ui", "UI for PluginLoader.", __version__, "Romanin")
 PluginLoaderUI_UIInfo = PluginUIInfo(True, "archive-plus", "plugin_loader_ui_screen", "Plugin Loader UI")
 
 class PluginLoaderUI(Plugin):
