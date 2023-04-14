@@ -5,23 +5,19 @@ import json
 from rich.console import Console
 # > KivyMD
 from kivymd.uix.list import MDList
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.scrollview import MDScrollView
-from kivymd.uix.selectioncontrol import MDSwitch
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.list import IRightBodyTouch, ThreeLineAvatarIconListItem, IconLeftWidget, IconRightWidget, TwoLineAvatarIconListItem
 # > Typing
 from typing import Optional, List, Dict, Any, Tuple, Type
 from types import ModuleType
 # > Local Imports
-try:    from .plugincreator import PluginInfo, Plugin, PluginUIInfo
-except: from plugincreator import PluginInfo, Plugin, PluginUIInfo
-try:    from uix import BSIScreen, BSINavigationDrawerItem
-except: from .uix import BSIScreen, BSINavigationDrawerItem
+try:    from .plugincreator import PluginInfo, Plugin, PluginUIInfo, is_supported_plugin
+except: from plugincreator import PluginInfo, Plugin, PluginUIInfo, is_supported_plugin
+try:    from uix import *
+except: from .uix import *
 
 # ! Metadata
 __name__ = "PluginLoader"
-__version__ = "0.3.5"
+__version__ = "0.3.6"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -34,124 +30,7 @@ def lsattr(obj: object) -> Dict[str, Any]:
     for i in dir(obj): attrs[i] = eval(f"obj.{i}")
     return attrs
 
-# import platform
-"""
-def is_supported_plugin(plugin_info: PluginInfo) -> bool:
-    pun = platform.uname()
-    if ("any" in plugin_info.system) and ("any" in plugin_info.machine): return True
-    elif (pun.system.lower() in plugin_info.system) and (pun.machine.lower() in plugin_info.machine): return True
-    return False
-"""
-
 # ! Any Classes
-class BSINavigationDrawerItemPlugin(BSINavigationDrawerItem):
-    def __init__(self, *args, **kwargs):
-        self.screen_name = kwargs.get("screen_name", "bsi")
-        self.bsi_msm = kwargs.get("bsi_msm", None)
-        kwargs.pop("screen_name")
-        kwargs.pop("bsi_msm")
-        super().__init__(*args, **kwargs)
-    def on_release(self):
-        if self.bsi_msm is not None:
-            self.bsi_msm.current = self.screen_name
-
-class BSIRigthSwitch(IRightBodyTouch, MDSwitch):
-    """Custom right container."""
-    def __init__(self, pl: Any, plugin_info: PluginInfo, *args, **kwargs) -> None:
-        kwargs["thumb_color_disabled"] = "grey"
-        super().__init__(*args, **kwargs)
-        self.plugin_loader = pl
-        self.plugin_info = plugin_info
-    
-    def on_active(self, instance_switch, active_value: bool) -> None:
-        super().on_active(instance_switch, active_value)
-        try: self.plugin_loader.config.change_settings(self.plugin_info, active_value)
-        except: pass
-
-class BSIRigthBoxLayout(IRightBodyTouch, MDBoxLayout):
-    def __init__(self, *args, **kwargs) -> None:
-        kwargs["adaptive_width"] = True
-        super().__init__(*args, **kwargs)
-
-class BSI2LineAvatarIconListItem(TwoLineAvatarIconListItem):
-    def __init__(
-        self,
-        icon: str="language-python",
-        first_text_line: str="None",
-        second_text_line: str="None",
-        *args, **kwargs
-    ) -> None:
-        kwargs["text"] = first_text_line
-        kwargs["secondary_text"] = second_text_line
-        
-        super().__init__(*args, **kwargs)
-        self.iconer = IconLeftWidget(icon=icon)
-        
-        self.add_widget(self.iconer)
-
-class BSIIconRightWidget(IconRightWidget):
-    def __init__(self, plugin_info: PluginInfo, plugin_ui_info: PluginUIInfo, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.plugin_info = plugin_info
-        self.plugin_ui_info = plugin_ui_info
-        
-        self.dialoger = MDDialog(
-            title="Info",
-            type="confirmation",
-            items=[
-                BSI2LineAvatarIconListItem("emoticon", "Icon", repr(self.plugin_ui_info.icon_name)),
-                BSI2LineAvatarIconListItem("location-exit", "Exists UI", repr(self.plugin_ui_info.init)),
-                BSI2LineAvatarIconListItem("rename-box", "Display Name", repr(self.plugin_ui_info.display_name)),
-                BSI2LineAvatarIconListItem("fit-to-screen", "Screen Name", repr(self.plugin_ui_info.screen_name)),
-                BSI2LineAvatarIconListItem("comment-edit", "Name", repr(self.plugin_info.name)),
-                BSI2LineAvatarIconListItem("file-find", "Name ID", repr(self.plugin_info.name_id)),
-                BSI2LineAvatarIconListItem("order-bool-descending", "Description", repr(self.plugin_info.desc)),
-                BSI2LineAvatarIconListItem("diversify", "Version", repr(self.plugin_info.version)),
-                BSI2LineAvatarIconListItem("account", "Author", repr(self.plugin_info.author))
-            ]
-        )
-    
-    def on_release(self):
-        super().on_release()
-        self.dialoger.open()
-
-class BSIList3LinesSwitchItem(ThreeLineAvatarIconListItem):
-    def __init__(
-        self,
-        icon: str="language-python",
-        first_text_line: str="None",
-        second_text_line: str="None",
-        third_text_line: str="None",
-        switch_active: bool=False,
-        switch_disabled: bool=False,
-        plugin_loader: Any=None,
-        plugin_info: PluginInfo=PluginInfo("None", "None", "None", "None", "None"),
-        plugin_ui_info: PluginUIInfo=PluginUIInfo(False, "language-python", "None", "None"),
-        *args,
-        **kwargs
-    ) -> None:
-        kwargs["text"] = first_text_line
-        kwargs["secondary_text"] = second_text_line
-        kwargs["tertiary_text"] = third_text_line
-        
-        super().__init__(*args, **kwargs)
-        
-        self.iconer = IconLeftWidget(icon=icon)
-        self.box_right = BSIRigthBoxLayout(id="rigth_box_container")
-        self.switcher = BSIRigthSwitch(
-            pl=plugin_loader,
-            plugin_info=plugin_info,
-            active=switch_active,
-            disabled=switch_disabled
-        )
-        self.infoner = BSIIconRightWidget(plugin_info, plugin_ui_info, icon="information")
-        
-        self.box_right.add_widget(self.switcher)
-        self.box_right.add_widget(self.infoner)
-        
-        self.add_widget(self.iconer)
-        self.add_widget(self.box_right)
-
 class PluginModuleType(ModuleType):
     plugin_info: PluginInfo
     plugin_ui_info: PluginUIInfo
@@ -167,7 +46,14 @@ class PluginModuleType(ModuleType):
             self.pre_init = pre_init_func
 
 # ! PluginLoaderUI
-PluginLoaderUI_Info = PluginInfo("Plugin Loader UI", "bsi.pluginloader.ui", "UI for PluginLoader.", __version__, "Romanin")
+PluginLoaderUI_Info = PluginInfo(
+    "Plugin Loader UI",
+    "bsi.pluginloader.ui",
+    "UI for PluginLoader.",
+    __version__,
+    "Romanin",
+    ["any"], ["any"]
+)
 PluginLoaderUI_UIInfo = PluginUIInfo(True, "archive-plus", "plugin_loader_ui_screen", "Plugin Loader UI")
 
 class PluginLoaderUI(Plugin):
@@ -336,15 +222,18 @@ class PluginLoader:
                 plugin_data = imp.find_module(plugin_name, [plugin_path, self.plugins_dirpath])
                 plugin_module: PluginModuleType = imp.load_module(plugin_name, *plugin_data)
                 
-                if not self.config.exists_plugin(plugin_module.plugin_info):
-                    self.config.add_plugin(plugin_module.plugin_info)
+                if is_supported_plugin(plugin_module.plugin_info):
+                    if not self.config.exists_plugin(plugin_module.plugin_info):
+                        self.config.add_plugin(plugin_module.plugin_info)
 
-                if (plugin_settings:=self.config.get_plugin_settings(plugin_module.plugin_info)) is not None:
-                    if plugin_settings["enabled"]: self.all_plugins.append(plugin_module)
-                    else: self.off_plugins.append(plugin_module)
+                    if (plugin_settings:=self.config.get_plugin_settings(plugin_module.plugin_info)) is not None:
+                        if plugin_settings["enabled"]: self.all_plugins.append(plugin_module)
+                        else: self.off_plugins.append(plugin_module)
+                    else:
+                        try: raise RuntimeError(f"Critical error when loading the '{plugin_module.plugin_info.name}' ({plugin_module.plugin_info.name_id}) plugin.")
+                        except: console.print_exception()
                 else:
-                    try: raise RuntimeError(f"Critical error when loading the '{plugin_module.plugin_info.name}' ({plugin_module.plugin_info.name_id}) plugin.")
-                    except: console.print_exception()
+                    self.off_plugins.append(plugin_module)
             except: console.print_exception()
     
     def init_plugins(self) -> None:

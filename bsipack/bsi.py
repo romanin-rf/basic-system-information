@@ -20,7 +20,7 @@ except: from pluginloader import PluginLoader
 
 # ! App Info
 __title__ = "BSI"
-__version__ = "0.3.5"
+__version__ = "0.3.6"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"

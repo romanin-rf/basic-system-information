@@ -1,19 +1,12 @@
-import os
-import sys
-import psutil
 from rich.console import Console
 # > KivyMD
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
-from kivymd.uix.navigationdrawer import MDNavigationDrawerMenu
 # > Kivy
-from kivy.lang.builder import Builder
-from kivy.clock import Clock, ClockBase
+from kivy.clock import ClockBase
 # > Typing
 from typing import Tuple
-# > Дополнительные библеотеки для создания плагинов
-import keyboard, mouse
 # > Locals Modules
 try:    from .uix import *
 except: from uix import *
@@ -21,11 +14,11 @@ try:    from .pluginloader import PluginLoader
 except: from pluginloader import PluginLoader
 
 # ! App Info
-__title__ = "BSI"
-__version__ = "0.3.5"
-__version_hash__ = hash(__version__)
-__author__ = "Romanin"
-__email__ = "semina054@gmail.com"
+__title__: str
+__version__: str
+__version_hash__: int
+__author__: str
+__email__: str
 
 # ! Environment
 console: Console

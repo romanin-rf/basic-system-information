@@ -31,7 +31,8 @@ plugin_info = PluginInfo(
     "bsi.example",
     "An example plugin.",
     "1.0.0",
-    "Romanin"
+    "Romanin",
+    ["any"], ["any"]
 )
 plugin_ui_info = PluginUIInfo(True, "hexagon", "example_plugin_screen", "Example Plugin")
 plugin_main = ExamplePlugin
