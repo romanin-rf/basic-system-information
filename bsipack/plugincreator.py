@@ -42,6 +42,8 @@ class Plugin:
 # ! Functions
 def is_supported_plugin(plugin_info: PluginInfo) -> bool:
     pun = platform.uname()
-    if ("any" in plugin_info.system) and ("any" in plugin_info.machine): return True
-    elif (pun.system.lower() in plugin_info.system) and (pun.machine.lower() in plugin_info.machine): return True
-    return False
+    return (
+        ("any" in plugin_info.system) and ("any" in plugin_info.machine)
+    ) or (
+        (pun.system.lower() in plugin_info.system) and (pun.machine.lower() in plugin_info.machine)
+    )
