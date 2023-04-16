@@ -10,4 +10,4 @@ try:
     if __name__ == "__main__":
         bsi.start_bsi()
 
-except:console.print_exception(word_wrap=True, show_locals=True)
+except: console.print_exception(word_wrap=True, show_locals=True)

@@ -24,7 +24,7 @@ plugin_info = PluginInfo(
     "Русский Перевод",
     "bsi.translate.russian",
     "Русский перевод для BSI.",
-    "0.3.6",
+    "0.3.7",
     "Romanin",
     ["any"], ["any"]
 )

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 # ! MetaData
 __title__ = "PluginCreator"
-__version__ = "0.3.6"
+__version__ = "0.3.7"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"

@@ -1,4 +1,6 @@
 import os
+import sys
+import subprocess
 import pathlib
 import imp
 import json
@@ -17,7 +19,7 @@ except: from .uix import *
 
 # ! Metadata
 __name__ = "PluginLoader"
-__version__ = "0.3.6"
+__version__ = "0.3.7"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
@@ -29,6 +31,9 @@ def lsattr(obj: object) -> Dict[str, Any]:
     attrs = {}
     for i in dir(obj): attrs[i] = eval(f"obj.{i}")
     return attrs
+
+def pip(*args) -> None:
+    subprocess.check_output([sys.executable, "-m", "pip", *args, "--no-input", "--no-color", "--no-python-version-warning", "--disable-pip-version-check"])
 
 # ! Any Classes
 class PluginModuleType(ModuleType):
@@ -208,17 +213,30 @@ class PluginLoader:
             if i.plugin_info.name_id == name_id:
                 return i
     
-    def get_plugins_path(self) -> List[Tuple[str, pathlib.Path]]:
+    def get_plugins_path(self) -> List[Tuple[str, pathlib.Path, Optional[pathlib.Path]]]:
         ls = []
         for i in os.listdir(self.plugins_dirpath):
             init_file_path = pathlib.Path(os.path.join(self.plugins_dirpath, i, "__init__.py"))
+            requirements_path_file = pathlib.Path(os.path.join(self.plugins_dirpath, i, "requirements.txt"))
+            
             if init_file_path.exists():
-                ls.append( (i, init_file_path) )
+                if requirements_path_file.exists():
+                    ls.append( (i, init_file_path, requirements_path_file) )
+                else:
+                    ls.append( (i, init_file_path, None) )
         return ls
     
     def load_plugins(self) -> None:
-        for plugin_name, plugin_path in self.get_plugins_path():
+        plp = self.get_plugins_path()
+        
+        for plugin_name, plugin_path, requirements_path in plp:
+            if requirements_path is not None:
+                pip("install", "-r", f"{requirements_path}")
+        
+        for plugin_name, plugin_path, requirements_path in plp:
             try:
+                
+                
                 plugin_data = imp.find_module(plugin_name, [plugin_path, self.plugins_dirpath])
                 plugin_module: PluginModuleType = imp.load_module(plugin_name, *plugin_data)
                 

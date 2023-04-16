@@ -1,5 +1,5 @@
 __name__ = "bsipack"
-__version__ = "0.3.6"
+__version__ = "0.3.7"
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"
 __url__ = "https://github.com/romanin-rf/basic-system-information"

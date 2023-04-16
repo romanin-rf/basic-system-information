@@ -3,6 +3,7 @@ from rich.console import Console
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
+from kivymd.uix.navigationdrawer import MDNavigationDrawerMenu
 # > Kivy
 from kivy.clock import ClockBase
 # > Typing
@@ -45,4 +46,5 @@ class BSI(MDApp):
     bsi_root: MDScreen
     bsi_msm: MDScreenManager
     bsi_ms: BSIScreen
+    bsi_nmfi: MDNavigationDrawerMenu
     def update_bsi_ms(self, dt) -> None: ...
