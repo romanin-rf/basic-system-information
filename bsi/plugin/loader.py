@@ -12,14 +12,14 @@ from kivymd.uix.scrollview import MDScrollView
 from typing import Optional, List, Dict, Any, Tuple, Type
 from types import ModuleType
 # > Local Imports
-try:    from .plugincreator import PluginInfo, Plugin, PluginUIInfo, is_supported_plugin
-except: from plugincreator import PluginInfo, Plugin, PluginUIInfo, is_supported_plugin
-try:    from uix import *
-except: from .uix import *
+try:    from .creator import PluginInfo, Plugin, PluginUIInfo, is_supported_plugin
+except: from bsi.plugin.creator import PluginInfo, Plugin, PluginUIInfo, is_supported_plugin
+try:    from ..uix import *
+except: from bsi.uix import *
 
 # ! Metadata
 __name__ = "PluginLoader"
-__version__ = "0.3.7"
+__version__ = "0.4.0"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"

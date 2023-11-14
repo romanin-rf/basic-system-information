@@ -10,9 +10,9 @@ from kivy.clock import ClockBase
 from typing import Tuple
 # > Locals Modules
 try:    from .uix import *
-except: from uix import *
-try:    from .pluginloader import PluginLoader
-except: from pluginloader import PluginLoader
+except: from bsi.uix import *
+try:    from .plugin.loader import PluginLoader
+except: from bsi.plugin.loader import PluginLoader
 
 # ! App Info
 __title__: str
@@ -47,4 +47,5 @@ class BSI(MDApp):
     bsi_msm: MDScreenManager
     bsi_ms: BSIScreen
     bsi_nmfi: MDNavigationDrawerMenu
+
     def update_bsi_ms(self, dt) -> None: ...

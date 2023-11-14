@@ -2,7 +2,7 @@ from dataclasses import dataclass
 # > Typing
 from typing import List, Literal
 # > Local Imports
-try:    from .bsi import *
+try:    from ..bsi import *
 except: from bsi import *
 
 # ! MetaData

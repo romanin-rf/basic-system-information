@@ -1,7 +1,7 @@
 from kivymd.uix.navigationdrawer import MDNavigationDrawerMenu
-from bsipack.plugincreator import Plugin, PluginInfo, PluginUIInfo
-from bsipack.pluginloader import PluginLoader
-from bsipack.bsi import BSI
+from bsi.plugin.creator import Plugin, PluginInfo, PluginUIInfo
+from bsi.plugin.loader import PluginLoader
+from bsi.bsi import BSI
 
 class RussianTranslatePlugin(Plugin): pass
 

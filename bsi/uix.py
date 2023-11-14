@@ -10,8 +10,8 @@ from kivymd.uix.list import IRightBodyTouch, ThreeLineAvatarIconListItem, IconLe
 # > Typing
 from typing import Any
 # > Local Imports
-try:    from .plugincreator import PluginInfo, PluginUIInfo, PASS_PLUGIN_INFO, PASS_PLUGIN_UI_INFO
-except: from plugincreator import PluginInfo, PluginUIInfo, PASS_PLUGIN_INFO, PASS_PLUGIN_UI_INFO
+try:    from .plugin.creator import PluginInfo, PluginUIInfo, PASS_PLUGIN_INFO, PASS_PLUGIN_UI_INFO
+except: from bsi.plugin.creator import PluginInfo, PluginUIInfo, PASS_PLUGIN_INFO, PASS_PLUGIN_UI_INFO
 
 class BSINavigationDrawerItem(MDNavigationDrawerItem):
     def __init__(self, *args, **kwargs):

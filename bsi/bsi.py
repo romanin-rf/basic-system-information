@@ -14,13 +14,13 @@ from kivy.clock import Clock
 from typing import Tuple, Dict, Any
 # > Locals Modules
 try:    from .uix import *
-except: from uix import *
-try:    from .pluginloader import PluginLoader
-except: from pluginloader import PluginLoader
+except: from bsi.uix import *
+try:    from .plugin.loader import PluginLoader
+except: from bsi.plugin.loader import PluginLoader
 
 # ! App Info
 __title__ = "BSI"
-__version__ = "0.3.7"
+__version__ = "0.4.0"
 __version_hash__ = hash(__version__)
 __author__ = "Romanin"
 __email__ = "semina054@gmail.com"

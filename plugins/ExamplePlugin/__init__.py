@@ -1,7 +1,7 @@
-from bsipack.plugincreator import Plugin, PluginInfo, PluginUIInfo
-from bsipack.pluginloader import PluginLoader
-from bsipack.bsi import BSI
-from bsipack.uix import *
+from bsi.plugin.creator import Plugin, PluginInfo, PluginUIInfo
+from bsi.plugin.loader import PluginLoader
+from bsi.bsi import BSI
+from bsi.uix import *
 from kivy.lang import Builder
 
 UI = """\
