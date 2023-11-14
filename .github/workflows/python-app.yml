@@ -10,12 +10,12 @@ on:
     branches: [ "bsi" ]
 
 permissions:
-  contents: read
+  contents: read, write
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v3
@@ -26,7 +26,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest
+        pip install flake8 pytest setuptools wheel
+        python setup.py bdist_wheel
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
